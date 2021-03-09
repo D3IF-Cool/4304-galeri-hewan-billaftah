@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Galeri Hewan</string>
+    <string name="angsa">Angsa</string>
+    <string name="angsa_latin">Cygnus olor</string>
 </resources>
