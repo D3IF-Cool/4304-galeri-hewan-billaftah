@@ -8,9 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import org.d3if4039.galerihewan.model.Hewan
-import org.d3if4039.galerihewan.R
 import org.d3if4039.galerihewan.databinding.FragmentMainBinding
+import org.d3if4039.galerihewan.network.HewanApi
 
 class MainFragment : Fragment() {
 
@@ -25,7 +24,7 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMainBinding.inflate(
             layoutInflater,
             container,
@@ -52,5 +51,25 @@ class MainFragment : Fragment() {
             {
                 myAdapter.updateData(it)
             })
+
+        viewModel.getStatus().observe(viewLifecycleOwner, {
+            updateProgress(it)
+        })
+    }
+
+    private fun updateProgress(status: HewanApi.ApiStatus) {
+        when (status) {
+            HewanApi.ApiStatus.LOADING -> {
+                binding.progressBar.visibility = View.VISIBLE
+            }
+            HewanApi.ApiStatus.SUCCESS -> {
+                binding.progressBar.visibility = View.GONE
+            }
+            HewanApi.ApiStatus.FAILED -> {
+                binding.progressBar.visibility = View.GONE
+                binding.networkError.visibility =
+                    View.VISIBLE
+            }
+        }
     }
 }
