@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import org.d3if4039.galerihewan.R
 import org.d3if4039.galerihewan.model.Hewan
 import org.d3if4039.galerihewan.network.HewanApi
 
