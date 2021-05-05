@@ -1,16 +1,33 @@
 package org.d3if4039.galerihewan.ui.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import org.d3if4039.galerihewan.R
 import org.d3if4039.galerihewan.model.Hewan
+import org.d3if4039.galerihewan.network.HewanApi
 
 class MainViewModel : ViewModel() {
     private val data = MutableLiveData<List<Hewan>>()
 
     init {
         data.value = initData()
+        retrieveData()
+    }
+
+    private fun retrieveData() {
+        viewModelScope.launch {
+            try {
+                val result =
+                    HewanApi.service.getHewan()
+                    Log.d ("MainViewModel", "Success: $result")
+            } catch (e: Exception) {
+                Log.d("MainViewModel", "Failure: ${e.message}")
+            }
+        }
     }
 
     private fun initData(): List<Hewan> {
@@ -27,5 +44,6 @@ class MainViewModel : ViewModel() {
             Hewan("Sapi", "Bos taurus", R.drawable.sapi),
         )
     }
+
     fun getData(): LiveData<List<Hewan>> = data
 }
